@@ -90,18 +90,31 @@ class _CharacterListScreenState extends State<CharacterListScreen> {
           });
           await _loadNextPage();
         },
-        child: ListView.builder(
-          controller: _controller,
-          itemCount: _characters.length + (_isLoading ? 1 : 0),
-          itemBuilder: (context, index) {
-            if (index >= _characters.length) {
-              return const Padding(
-                padding: EdgeInsets.all(24),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return ListView.builder(
+              controller: _controller,
+              padding: EdgeInsets.symmetric(
+                horizontal: constraints.maxWidth >= 820 ? 24 : 0,
+                vertical: 8,
+              ),
+              itemCount: _characters.length + (_isLoading ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index >= _characters.length) {
+                  return const Padding(
+                    padding: EdgeInsets.all(24),
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
 
-            return CharacterTile(character: _characters[index]);
+                return Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 760),
+                    child: CharacterTile(character: _characters[index]),
+                  ),
+                );
+              },
+            );
           },
         ),
       ),

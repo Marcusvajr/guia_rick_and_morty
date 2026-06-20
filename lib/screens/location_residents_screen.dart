@@ -63,10 +63,23 @@ class _LocationResidentsScreenState extends State<LocationResidentsScreen> {
             );
           }
 
-          return ListView.builder(
-            itemCount: residents.length,
-            itemBuilder: (context, index) {
-              return CharacterTile(character: residents[index]);
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return ListView.builder(
+                padding: EdgeInsets.symmetric(
+                  horizontal: constraints.maxWidth >= 820 ? 24 : 0,
+                  vertical: 8,
+                ),
+                itemCount: residents.length,
+                itemBuilder: (context, index) {
+                  return Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 760),
+                      child: CharacterTile(character: residents[index]),
+                    ),
+                  );
+                },
+              );
             },
           );
         },

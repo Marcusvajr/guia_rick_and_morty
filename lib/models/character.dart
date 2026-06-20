@@ -43,6 +43,29 @@ class Character {
     }
   }
 
+  String get localizedSpecies {
+    switch (species.toLowerCase()) {
+      case 'human':
+        return 'Humano';
+      case 'alien':
+        return 'Alienígena';
+      case 'humanoid':
+        return 'Humanoide';
+      case 'animal':
+        return 'Animal';
+      case 'robot':
+        return 'Robô';
+      case 'mythological creature':
+        return 'Criatura mitológica';
+      case 'disease':
+        return 'Doença';
+      case 'unknown':
+        return 'Desconhecida';
+      default:
+        return species.isEmpty ? 'Desconhecida' : species;
+    }
+  }
+
   factory Character.fromJson(Map<String, dynamic> json) {
     return Character(
       id: json['id'] as int,

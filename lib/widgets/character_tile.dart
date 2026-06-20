@@ -19,18 +19,28 @@ class CharacterTile extends StatelessWidget {
     final isFavorite = favorites.isFavorite(character.id);
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         leading: CircleAvatar(
+          backgroundColor: const Color(0xFFDFF7D7),
           backgroundImage: NetworkImage(character.image),
-          radius: 28,
+          radius: 30,
         ),
-        title: Text(character.name),
-        subtitle: Text('${character.localizedStatus} - ${character.species}'),
+        title: Text(
+          character.name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+        subtitle: Text(
+          '${character.localizedStatus} - ${character.localizedSpecies}',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: IconButton(
           tooltip: isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos',
           icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-          color: isFavorite ? Colors.red : null,
+          color: isFavorite ? const Color(0xFFE83E8C) : const Color(0xFF276749),
           onPressed: () => favorites.toggle(character),
         ),
         onTap: () {

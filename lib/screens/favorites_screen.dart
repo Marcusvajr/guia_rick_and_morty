@@ -20,10 +20,23 @@ class FavoritesScreen extends StatelessWidget {
               title: 'Nenhum favorito',
               message: 'Adicione personagens tocando no coração da lista.',
             )
-          : ListView.builder(
-              itemCount: favorites.length,
-              itemBuilder: (context, index) {
-                return CharacterTile(character: favorites[index]);
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                return ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: constraints.maxWidth >= 820 ? 24 : 0,
+                    vertical: 8,
+                  ),
+                  itemCount: favorites.length,
+                  itemBuilder: (context, index) {
+                    return Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 760),
+                        child: CharacterTile(character: favorites[index]),
+                      ),
+                    );
+                  },
+                );
               },
             ),
     );

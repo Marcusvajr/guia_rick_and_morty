@@ -82,33 +82,58 @@ class _LocationListScreenState extends State<LocationListScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Locais')),
-      body: ListView.builder(
-        controller: _controller,
-        itemCount: _locations.length + (_isLoading ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index >= _locations.length) {
-            return const Padding(
-              padding: EdgeInsets.all(24),
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-
-          final location = _locations[index];
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            child: ListTile(
-              leading: const Icon(Icons.public),
-              title: Text(location.name),
-              subtitle: Text('${location.type} - ${location.dimension}'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => LocationResidentsScreen(location: location),
-                  ),
-                );
-              },
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return ListView.builder(
+            controller: _controller,
+            padding: EdgeInsets.symmetric(
+              horizontal: constraints.maxWidth >= 820 ? 24 : 0,
+              vertical: 8,
             ),
+            itemCount: _locations.length + (_isLoading ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index >= _locations.length) {
+                return const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              final location = _locations[index];
+              return Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 760),
+                  child: Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      leading: const CircleAvatar(
+                        backgroundColor: Color(0xFFDFF0FF),
+                        child: Icon(Icons.public, color: Color(0xFF177BC8)),
+                      ),
+                      title: Text(
+                        location.name,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      subtitle: Text(
+                        '${location.localizedType} - ${location.localizedDimension}',
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                LocationResidentsScreen(location: location),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
